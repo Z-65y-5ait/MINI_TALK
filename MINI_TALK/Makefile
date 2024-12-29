@@ -1,0 +1,43 @@
+NAMECLIENT = client
+NAMEBONUSCLIENT = client_bonus
+NAMESERVER = server
+NAMEBONUSSERVER = server_bonus
+CFLAGS = -Wall -Wextra -Werror
+CC = cc
+CLIENT_SRC_FILES = client.c ft_atoi.c ft_is_numeric.c
+CLIENT_OBJ_FILES = $(CLIENT_SRC_FILES:.c=.o)
+SERVER_SRC_FILES = ft_putnbr.c server.c
+SERVER_OBJ_FILES = $(SERVER_SRC_FILES:.c=.o)
+BONUS_SERVER_SRC_FILES = ft_putnbr.c server_bonus.c
+BONUS_SERVER_OBJ_FILES = $(BONUS_SERVER_SRC_FILES:.c=.o)
+BONUS_CLIENT_SRC_FILES = client_bonus.c ft_atoi.c ft_is_numeric.c
+BONUS_CLIENT_OBJ_FILES = $(BONUS_CLIENT_SRC_FILES:.c=.o)
+
+all: $(NAMECLIENT) $(NAMESERVER)
+
+bonus:	$(NAMEBONUSCLIENT) $(NAMEBONUSSERVER)
+
+%.o: %.c minitalk.h
+		$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAMECLIENT): $(CLIENT_OBJ_FILES)
+		$(CC) $(CFLAGS) $(CLIENT_OBJ_FILES) -o client
+
+$(NAMESERVER): $(SERVER_OBJ_FILES)
+		$(CC) $(CFLAGS) $(SERVER_OBJ_FILES) -o server
+
+$(NAMEBONUSSERVER): $(BONUS_SERVER_OBJ_FILES)
+		$(CC) $(CFLAGS) $(BONUS_SERVER_OBJ_FILES) -o server_bonus
+
+$(NAMEBONUSCLIENT): $(BONUS_CLIENT_OBJ_FILES)
+		$(CC) $(CFLAGS) $(BONUS_CLIENT_OBJ_FILES) -o client_bonus
+
+clean:
+		rm -rf $(SERVER_OBJ_FILES) $(CLIENT_OBJ_FILES) $(BONUS_CLIENT_OBJ_FILES) $(BONUS_SERVER_OBJ_FILES)
+
+fclean:
+		rm -rf $(SERVER_OBJ_FILES) $(CLIENT_OBJ_FILES) $(BONUS_CLIENT_OBJ_FILES) $(BONUS_SERVER_OBJ_FILES) $(NAMEBONUSCLIENT) $(NAMEBONUSSERVER) $(NAMECLIENT) $(NAMESERVER)
+
+re: fclean all
+
+.PHONY: all bonus clean fclean re
